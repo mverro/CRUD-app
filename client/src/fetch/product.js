@@ -1,6 +1,6 @@
 import axios from "axios";
 import Swal from "sweetalert2";
-const URL = "http://localhost:3000/products";
+const URL = "https://crud-app-omega-five.vercel.app/products";
 
 const getProduct = async (cb) => {
   try {

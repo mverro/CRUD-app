@@ -23,7 +23,7 @@ const CardProduct = ({ data, onDelete , onEdit }) => {
         >
           <div className="relative mx-4 -mt-6 h-60 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white shadow-lg shadow-blue-gray-500/40">
             <img
-              src={`http://localhost:3000/${product.image}`}
+              src={`https://crud-app-omega-five.vercel.app/${product.image}`}
               alt={product.name}
               className="w-full h-full object-cover bg-white"
             />
