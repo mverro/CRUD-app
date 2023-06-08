@@ -32,7 +32,7 @@ const ProductPage = () => {
   const fetchData = async (page) => {
     try {
       setIsLoading(true);
-      const limit = 6;
+      const limit = 5;
       await getProductPagination(page, limit, (result) => {
         setProducts(result.products);
         setTotalPages(result.totalPages);
