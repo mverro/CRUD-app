@@ -8,5 +8,6 @@ productRoute.get('/search',ProductController.search);
 productRoute.post('/create',upload, ProductController.createProduct);
 productRoute.put('/update/:id',upload, ProductController.updateProduct);
 productRoute.delete('/delete/:id', ProductController.deleteProduct);
+productRoute.get('/pagination', ProductController.getProductsPagination);
 
 module.exports = productRoute;

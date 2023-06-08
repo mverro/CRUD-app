@@ -1,0 +1,91 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: rgb(136, 133, 133);
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.homepage {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.product-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 18px;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.product-button:hover {
+  background-color: #0056b3;
+}
+
+.loading-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+}
+
+.loading-content {
+  text-align: center;
+  color: #fff;
+}
+
+.banner-enter {
+  opacity: 0;
+}
+
+.banner-enter-active {
+  opacity: 1;
+  transition: opacity 500ms;
+}
+
+.banner-exit {
+  opacity: 1;
+}
+
+.banner-exit-active {
+  opacity: 0;
+  transition: opacity 500ms;
+}
+
+

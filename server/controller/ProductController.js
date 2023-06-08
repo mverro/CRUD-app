@@ -1,7 +1,7 @@
 const { product } = require("../models");
-const { checkUpload } = require("../helper/checkUpload");
+const { checkUpload, checkFileDelete,deleteFile } = require("../helper/checkUpload");
 const { Op } = require("sequelize");
-const { tokenGenerator,tokenVerifier } = require("../helper/jwtConfig");
+const { tokenGenerator, tokenVerifier } = require("../helper/jwtConfig");
 
 class ProductController {
   static async getProduct(req, res) {
@@ -18,7 +18,9 @@ class ProductController {
 
   static async deleteProduct(req, res) {
     try {
-      const id = req.params.id;
+      const id = +req.params.id;
+      const temp = await product.findByPk(id);
+      checkFileDelete(temp);
       let result = await product.destroy({
         where: { id: id },
       });
@@ -38,8 +40,12 @@ class ProductController {
   static async createProduct(req, res) {
     try {
       const { name, buyPrice, sellPrice, stock, image } = req.body;
-      const existingProduct = await product.findOne({ where: { name } });
+      const existingProduct = await product.findOne({
+        where: { name: { [Op.iLike]: name } },
+      });
+
       if (existingProduct) {
+        deleteFile(image)
         return res.status(400).json({ message: "Product name already exists" });
       }
 
@@ -91,7 +97,7 @@ class ProductController {
     try {
       const searchQuery = req.query.key;
       const results = await product.findAll({
-        order: [['id', 'ASC']],
+        order: [["id", "ASC"]],
         where: {
           name: { [Op.iLike]: `%${searchQuery}%` },
         },
@@ -103,19 +109,41 @@ class ProductController {
   }
 
   static async detail(req, res) {
-    try{
-        const id = req.params.id;
-        const result = await product.findByPk(id);
-        
-        res.status(200).json(result);
+    try {
+      const id = req.params.id;
+      const result = await product.findByPk(id);
 
-    }catch (err) {
-        res.status(500).json({ message: err.message });
+      res.status(200).json(result);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
     }
   }
 
-  
+  static async getProductsPagination(req, res) {
+    const { page, limit } = req.query;
+    const offset = (+page - 1) * +limit;
+    console.log({ page });
 
+    try {
+      const products = await product.findAll({
+        offset,
+        limit: +limit,
+        order: [["id", "ASC"]],
+      });
+
+      const totalProducts = await product.count();
+      const totalPages = Math.ceil(totalProducts / limit);
+
+      res.json({
+        products,
+        totalProducts,
+        totalPages,
+        currentPage: +page,
+      });
+    } catch (err) {
+      res.status(500).json({ err: "Internal server error" });
+    }
+  }
 }
 
 module.exports = ProductController;
