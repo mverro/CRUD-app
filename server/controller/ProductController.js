@@ -20,7 +20,7 @@ class ProductController {
     try {
       const id = +req.params.id;
       const temp = await product.findByPk(id);
-      checkFileDelete(temp);
+      // checkFileDelete(temp);
       let result = await product.destroy({
         where: { id: id },
       });
