@@ -20,7 +20,7 @@ class ProductController {
     try {
       const id = +req.params.id;
       const temp = await product.findByPk(id);
-      // checkFileDelete(temp);
+      checkFileDelete(temp);
       let result = await product.destroy({
         where: { id: id },
       });
@@ -39,13 +39,14 @@ class ProductController {
 
   static async createProduct(req, res) {
     try {
-      const { name, buyPrice, sellPrice, stock, image } = req.body;
+      const { name, buyPrice, sellPrice, stock } = req.body;
+      let image = req.body.image;
       const existingProduct = await product.findOne({
         where: { name: { [Op.iLike]: name } },
       });
 
       if (existingProduct) {
-        // deleteFile(image)
+        deleteFile(image)
         return res.status(400).json({ message: "Product name already exists" });
       }
 
@@ -54,7 +55,7 @@ class ProductController {
         buyPrice: +buyPrice,
         sellPrice: +sellPrice,
         stock: +stock,
-        image: image || 'images/placeholder.png',
+        image: image ,
       });
 
       res.status(201).json({ result: newProduct });
@@ -80,7 +81,7 @@ class ProductController {
         },
         { where: { id } }
       );
-      // checkUpload(tempImage, image);
+      checkUpload(tempImage, image);
       result[0] === 1
         ? res.status(200).json({
             message: `Id ${id} has been Updated!`,
