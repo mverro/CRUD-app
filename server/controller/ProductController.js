@@ -20,7 +20,7 @@ class ProductController {
     try {
       const id = +req.params.id;
       const temp = await product.findByPk(id);
-      checkFileDelete(temp);
+      // checkFileDelete(temp);
       let result = await product.destroy({
         where: { id: id },
       });
@@ -45,7 +45,7 @@ class ProductController {
       });
 
       if (existingProduct) {
-        deleteFile(image)
+        // deleteFile(image)
         return res.status(400).json({ message: "Product name already exists" });
       }
 
@@ -122,7 +122,7 @@ class ProductController {
   static async getProductsPagination(req, res) {
     const { page, limit } = req.query;
     const offset = (+page - 1) * +limit;
-    console.log({ page });
+    
 
     try {
       const products = await product.findAll({
