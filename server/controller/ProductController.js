@@ -54,7 +54,7 @@ class ProductController {
         buyPrice: +buyPrice,
         sellPrice: +sellPrice,
         stock: +stock,
-        image: image,
+        image: image || 'images/placeholder.png',
       });
 
       res.status(201).json({ result: newProduct });
@@ -80,7 +80,7 @@ class ProductController {
         },
         { where: { id } }
       );
-      checkUpload(tempImage, image);
+      // checkUpload(tempImage, image);
       result[0] === 1
         ? res.status(200).json({
             message: `Id ${id} has been Updated!`,
