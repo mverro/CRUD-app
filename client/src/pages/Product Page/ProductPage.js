@@ -6,14 +6,12 @@ import Pagination from "../../components/paginationPage";
 import CardProduct from "../../components/card";
 import SearchBar from "../../components/searchBar";
 import ModalEdit from "../../components/modalEdit";
-import kosongGif from "../../assets/kotak.gif";
 import LottiePlayer from "react-lottie-player";
-import emptyAnimation from '../../assets/kosong.json';
+import emptyAnimation from "../../assets/kosong.json";
 
 import {
   getProductPagination,
   searchProduct,
-  updateProduct,
   deleteProduct,
 } from "../../fetch/product";
 
@@ -60,15 +58,20 @@ const ProductPage = () => {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      searchProduct(search, (result) => {
-        setProducts(result);
-      });
+      if (search !== "") {
+        searchProduct(search, (result) => {
+          setProducts(result);
+        });
+      }else{
+        setChangeData(!changeData);
+      }
     }, 500);
-
+  
     return () => {
       clearTimeout(timeout);
     };
   }, [search]);
+  
 
   useEffect(() => {
     fetchData(currentPage);

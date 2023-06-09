@@ -159,7 +159,7 @@ const ModalEdit = ({
                 </button>
                 <div className="px-6 py-6 lg:px-8">
                   <div className="flex items-center justify-center p-5 border-b border-solid border-slate-200 rounded-t">
-                    <h3 className="text-3xl font-semibold">Add Item</h3>
+                    <h3 className="text-3xl font-semibold">Edit Item</h3>
                   </div>
                   <form className="space-y-6" action="#">
                     <div className="mt-5">
@@ -271,7 +271,7 @@ const ModalEdit = ({
                       type="submit"
                       className="w-full text-white bg-[#019267] hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                     >
-                      Add Item
+                      Edit Item
                     </button>
                   </form>
                 </div>
