@@ -4,7 +4,7 @@ This application is deployed on a serverless static server, which means that the
 
 - API serverless : https://vercel.com/mverro/crud-app-client
 - API DOC : https://documenter.getpostman.com/view/25641790/2s93sabtkk
-- Client serverless : crud-app-client-lac.vercel.app/
+- Client : https://crud-app-client-lac.vercel.app/
 
 # Function
 To run the application locally, please follow these steps:
