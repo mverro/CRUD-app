@@ -1,9 +1,8 @@
 # CRUD-app
 
-API serverless : https://vercel.com/mverro/crud-app-client
-API DOC : https://documenter.getpostman.com/view/25641790/2s93sabtkk
-Client serverless : crud-app-client-lac.vercel.app/
-
+- API serverless : https://vercel.com/mverro/crud-app-client
+- API DOC : https://documenter.getpostman.com/view/25641790/2s93sabtkk
+- Client serverless : crud-app-client-lac.vercel.app/
 
 This application is deployed on a serverless static server, which means that the upload API function cannot run on the client domain. However, you can try uploading by cloning this repository and running the server locally, and then modify the data fetch URL on the client to the local URL.
 
