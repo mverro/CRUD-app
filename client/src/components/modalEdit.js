@@ -247,7 +247,7 @@ const ModalEdit = ({
                             />
                           ) : (
                             <img
-                              src={`https://crud-app-omega-five.vercel.app/${info.image}`}
+                              src={info.image}
                               className="img-thumbnail h-50 w-50 object-cover  m-auto"
                               alt="Photo"
                               width="300px"

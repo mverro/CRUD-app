@@ -26,7 +26,7 @@ const CardProduct = ({ data, onDelete, onEdit }) => {
                 Stock {product.stock}
               </p>
               <img
-                src={`https://crud-app-omega-five.vercel.app/${product.image}`}
+                src={product.image}
                 alt={product.name}
                 className="w-full h-full object-cover bg-white"
               />
