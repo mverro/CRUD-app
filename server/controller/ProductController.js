@@ -44,7 +44,6 @@ class ProductController {
       });
 
       if (existingProduct) {
-        deleteFile(image)
         return res.status(400).json({ message: "Product name already exists" });
       }
 
