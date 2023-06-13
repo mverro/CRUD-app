@@ -19,8 +19,6 @@ class ProductController {
   static async deleteProduct(req, res) {
     try {
       const id = +req.params.id;
-      const temp = await product.findByPk(id);
-      // checkFileDelete(temp);
       let result = await product.destroy({
         where: { id: id },
       });
@@ -68,8 +66,6 @@ class ProductController {
     try {
       const id = req.params.id;
       const { name, buyPrice, sellPrice, stock, image } = req.body;
-      const temp = await product.findByPk(id);
-      const tempImage = temp.image;
 
       const result = await product.update(
         {
@@ -81,7 +77,6 @@ class ProductController {
         },
         { where: { id } }
       );
-      checkUpload(tempImage, image);
       result[0] === 1
         ? res.status(200).json({
             message: `Id ${id} has been Updated!`,

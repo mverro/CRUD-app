@@ -1,45 +1,45 @@
-const multer = require("multer");
+const multer = require('multer');
+const AWS = require('aws-sdk');
+const multerS3 = require('multer-s3');
 
-const fileStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "./public/images");
-  },
-  filename: (req, file, cb) => {
-    cb(null, new Date().getTime() + "-" + file.originalname);
-  },
+
+AWS.config.update({
+  accessKeyId: process.env.S3_ACCESS_KEY,
+  secretAccessKey: process.env.S3_SCRET_ACCESS_KEY,
+  region: process.env.S3_BUCKET_REGION
 });
 
-const fileFilter = (req, file, cb) => {
-  if (
-    file.mimetype === "image/png" ||
-    file.mimetype === "image/jpg" ||
-    file.mimetype === "image/jpeg"
-  ) {
-    cb(null, true);
-  } else {
-    cb(null, false);
-  }
-};
+const s3 = new AWS.S3();
 
-const uploadMulter = multer({
-  storage: fileStorage,
-  fileFilter: fileFilter,
-}).single("image");
 
-let upload = (req, res, next) => {
-  uploadMulter(req, res, function (err) {
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: process.env.S3_BUCKET_NAME,
+    acl: 'public-read', 
+    metadata: function (req, file, cb) {
+      cb(null, { fieldName: file.fieldname });
+    },
+    key: function (req, file, cb) {
+      cb(null, Date.now().toString() + '-' + file.originalname);
+    }
+  })
+}).single('image');
+
+let uploadMulter = (req, res, next) => {
+  upload(req, res, function (err) {
     if (err) {
       return next(err);
     }
     if (!req.file) {
       return next();
     }
-    let image = "images/" + req.file.filename;
+    let image = req.file.location;
     req.body.image = image;
     next();
   });
 };
 
-module.exports = {
-  upload,
-};
+
+
+module.exports = uploadMulter;
