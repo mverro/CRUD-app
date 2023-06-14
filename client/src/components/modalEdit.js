@@ -10,11 +10,11 @@ const ModalEdit = ({
   setChangeData,
 }) => {
   const [isHandle, setisHandle] = useState(false);
-  const [nameError, setNameError] = useState('');
-  const [buyPriceError, setBuyPriceError] = useState('');
-  const [sellPriceError, setSellPriceError] = useState('');
-  const [stockError, setStockError] = useState('');
-  const [imageError, setImageError] = useState('');
+  const [nameError, setNameError] = useState("");
+  const [buyPriceError, setBuyPriceError] = useState("");
+  const [sellPriceError, setSellPriceError] = useState("");
+  const [stockError, setStockError] = useState("");
+  const [imageError, setImageError] = useState("");
   const [info, setInfo] = useState({
     name: "",
     buyPrice: 0,
@@ -34,47 +34,49 @@ const ModalEdit = ({
   const validateForm = () => {
     let isValid = true;
 
-    if (!form.name || form.name.trim() === '') {
-      setNameError('Product name is required');
+    if (!form.name || form.name.trim() === "") {
+      setNameError("Product name is required");
       isValid = false;
     } else {
-      setNameError('');
+      setNameError("");
     }
 
     if (!form.buyPrice || isNaN(form.buyPrice)) {
-      setBuyPriceError('Buy price must be a number');
+      setBuyPriceError("Buy price must be a number");
       isValid = false;
     } else {
-      setBuyPriceError('');
+      setBuyPriceError("");
     }
 
     if (!form.sellPrice || isNaN(form.sellPrice)) {
-      setSellPriceError('Sell price must be a number');
+      setSellPriceError("Sell price must be a number");
       isValid = false;
     } else {
-      setSellPriceError('');
+      setSellPriceError("");
     }
 
     if (!form.stock || isNaN(form.stock)) {
-      setStockError('Stock must be a number');
+      setStockError("Stock must be a number");
       isValid = false;
     } else {
-      setStockError('');
+      setStockError("");
     }
 
-    if (form.image) {
-      const fileSize = form.image.size / 1024; 
-      const fileType = form.image.type;
-      const allowedTypes = ['image/jpeg', 'image/png'];
+    if (isHandle) {
+      if (form.image) {
+        const fileSize = form.image.size / 1024;
+        const fileType = form.image.type;
+        const allowedTypes = ["image/jpeg", "image/png"];
 
-      if (fileSize > 100) {
-        setImageError('Image size should not exceed 100KB');
-        isValid = false;
-      } else if (!allowedTypes.includes(fileType)) {
-        setImageError('Only JPEG and PNG images are allowed');
-        isValid = false;
-      } else {
-        setImageError('');
+        if (fileSize > 100) {
+          setImageError("Image size should not exceed 100KB");
+          isValid = false;
+        } else if (!allowedTypes.includes(fileType)) {
+          setImageError("Only JPEG and PNG images are allowed");
+          isValid = false;
+        } else {
+          setImageError("");
+        }
       }
     }
 
@@ -117,23 +119,29 @@ const ModalEdit = ({
     let uploaded = e.target.files[0];
     setForm({ ...form, image: uploaded });
     setisHandle(true);
-    setInfo({...info,image: URL.createObjectURL(uploaded)});
+    setInfo({ ...info, image: URL.createObjectURL(uploaded) });
   }
 
   const submitHandler = () => {
     if (validateForm()) {
-    updateProduct(id, form, () => setChangeData(!changeData));
-    document.body.style.overflow = "unset";
+      updateProduct(id, form, () => setChangeData(!changeData));
+      document.body.style.overflow = "unset";
+      setShowModalEdit(false);
+      setisHandle(false);
+    }
+  };
+
+  const cancelHandler = () => {
     setShowModalEdit(false);
     setisHandle(false);
-    }
+    document.body.style.overflow = "unset";
   };
 
   return (
     <>
       {showModalEdit ? (
         <>
-            <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed pt-20 pb-5 inset-0 z-50 outline-none focus:outline-none ">
+          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed pt-20 pb-5 inset-0 z-50 outline-none focus:outline-none mb-5">
             <div className="relative w-full max-w-md max-h-full">
               <div className="relative bg-white rounded-lg shadow">
                 <button
@@ -162,6 +170,50 @@ const ModalEdit = ({
                     <h3 className="text-3xl font-semibold">Edit Item</h3>
                   </div>
                   <form className="space-y-6" action="#">
+                    <div className="overflow-clip w-full pl-5 border-rounded rounded-xl border">
+                      <div className="m-5">
+                        <img
+                          src={info.image}
+                          className="img-thumbnail h-50 w-50 object-cover  m-auto"
+                          alt="Photo"
+                          width="300px"
+                        />
+                      </div>
+
+                      <div className="m-5">
+                        {isHandle ? (
+                          <>
+                            <div className="flex">
+                              <input
+                                onChange={handleUploadChange}
+                                className="form-control "
+                                type="file"
+                                id="formFile"
+                              />
+                              <button
+                                onClick={() => setisHandle(false)}
+                                className="ml-2 px-4 bg-red-500 p-2 rounded-lg text-white hover:bg-red-400"
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          </>
+                        ) : (
+                          <button
+                            onClick={() => setisHandle(true)}
+                            className="bg-blue-500 p-2 rounded-lg text-white hover:bg-blue-400"
+                          >
+                            Edit Photo
+                          </button>
+                        )}
+                        {imageError && (
+                          <p className="text-red-500 text-sm mt-1">
+                            {imageError}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
                     <div className="mt-5">
                       <label className="block mb-2 text-sm font-medium text-black-500">
                         Product Name
@@ -236,55 +288,27 @@ const ModalEdit = ({
                         </p>
                       )}
                     </div>
-                    <div className="overflow-clip w-full pl-5">
-                        <div className="mb-2">
-                          {isHandle ? (
-                            <img
-                              src={info.image}
-                              className="img-thumbnail h-50 w-50 object-cover  m-auto"
-                              alt="Photo"
-                              width="300px"
-                            />
-                          ) : (
-                            <img
-                              src={info.image}
-                              className="img-thumbnail h-50 w-50 object-cover  m-auto"
-                              alt="Photo"
-                              width="300px"
-                            />
-                          )}
-                        </div>
-                        <input
-                          onChange={handleUploadChange}
-                          className="form-control"
-                          type="file"
-                          id="formFile"
-                        />
-                        {imageError && (
-                        <p className="text-red-500 text-sm mt-1">
-                          {imageError}
-                        </p>
-                      )}
-                      </div>
-                    <button
-                      onClick={() => submitHandler()}
-                      type="submit"
-                      className="w-full text-white bg-[#019267] hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                    >
-                      Edit Item
-                    </button>
+                    <div className="flex justify-between gap-5">
+                      <button
+                        onClick={() => submitHandler()}
+                        className="flex-1 ml-2 text-white bg-[#019267] hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                      >
+                        Update
+                      </button>
+
+                      <button
+                        onClick={() => cancelHandler()}
+                        className="flex-1 mr-2 text-white bg-red-500 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                      >
+                        Cancel
+                      </button>
+                    </div>
                   </form>
                 </div>
               </div>
             </div>
           </div>
           <div className="opacity-30 fixed inset-0 z-40 bg-black"></div>
-
-
-
-
-
-          
         </>
       ) : null}
     </>
